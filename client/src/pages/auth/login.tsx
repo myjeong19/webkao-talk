@@ -6,11 +6,11 @@ import {
   FormControl,
   FormMessage,
   Input,
-  Button,
 } from '@/shared/shadcn/ui';
 
 import { useLoginForm } from '@/features/auth/model';
 import { Link } from 'react-router-dom';
+import { AuthButton } from '@/shared/ui';
 
 function Login() {
   const { form, onSubmit } = useLoginForm();
@@ -52,9 +52,7 @@ function Login() {
             )}
           />
 
-          <Button className="bg-teal-600 text-white w-full hover:opacity-90" type="submit">
-            로그인
-          </Button>
+          <AuthButton>로그인</AuthButton>
         </form>
       </Form>
 

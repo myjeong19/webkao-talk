@@ -1,13 +1,6 @@
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  Input,
-  Button,
-} from '@/shared/shadcn/ui';
+import { Form, FormField, FormItem, FormLabel, FormControl, Input } from '@/shared/shadcn/ui';
+
+import { AuthButton } from '@/shared/ui';
 
 import { useSignupForm } from '@/features/auth/model';
 import { Link } from 'react-router-dom';
@@ -54,7 +47,7 @@ function Login() {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="w-full mb-3 mb-3">
+              <FormItem className="w-full mb-3">
                 <FormLabel>비밀번호</FormLabel>
                 <FormControl>
                   <Input placeholder="비밀번호를 입력해주세요." {...field} />
@@ -63,9 +56,7 @@ function Login() {
             )}
           />
 
-          <Button className="bg-teal-600 text-white w-full hover:opacity-90" type="submit">
-            회원가입
-          </Button>
+          <AuthButton>회원가입</AuthButton>
         </form>
       </Form>
 
