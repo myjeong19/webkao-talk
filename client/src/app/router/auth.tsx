@@ -14,7 +14,7 @@ export const NON_AUTH = [
         element: <Login />,
       },
       {
-        path: '/sign-up',
+        path: '/signup',
         element: <SinuUp />,
       },
     ],

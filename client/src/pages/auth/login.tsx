@@ -17,7 +17,10 @@ function Login() {
 
   return (
     <>
-      <h2 className="font-semibold size w-6/12 text-3xl mb-16">WEB KAO TALK</h2>
+      <header className="w-6/12 mb-16">
+        <h2 className="font-semibold text-3xl">WEB KAO TALK 시작하기</h2>
+        <span>로그인</span>
+      </header>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-6/12 mb-5">
