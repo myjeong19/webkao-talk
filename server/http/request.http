@@ -1,0 +1,20 @@
+### signup
+POST http://localhost:3000/api/users/signup
+Content-Type: application/json
+
+{
+  "nickname": "test nickname",
+  "username": "test username",
+  "password": "test password"
+}
+
+### login
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+  "username": "test username",
+  "password": "test password"
+}
+
+###
