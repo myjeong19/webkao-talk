@@ -1,7 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { TextInput, View, KeyboardAvoidingView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Redirect } from 'expo-router';
+import { View, KeyboardAvoidingView } from 'react-native';
+import { useRouter } from 'expo-router';
 import ky from 'ky';
 import { useForm } from 'react-hook-form';
 
@@ -32,6 +30,7 @@ export default function SignUp() {
   });
 
   const password = watch('userPassword');
+  const router = useRouter();
 
   const onSignUp = async (data: { userId: string; userPassword: string }) => {
     try {
@@ -43,7 +42,7 @@ export default function SignUp() {
       });
 
       if (response.ok) {
-        return <Redirect href="/sign-in" />;
+        return router.replace('/sign-in');
       }
     } catch (error) {
       const apiError = error as ApiError;
