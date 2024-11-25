@@ -1,4 +1,6 @@
-export const NAV_THEME = {
+import type { Theme } from '@react-navigation/native';
+
+const NAV_THEME = {
   light: {
     background: 'hsl(0 0% 100%)', // background
     border: 'hsl(240 5.9% 90%)', // border
@@ -14,5 +16,26 @@ export const NAV_THEME = {
     notification: 'hsl(0 72% 51%)', // destructive
     primary: 'hsl(0 0% 98%)', // primary
     text: 'hsl(0 0% 98%)', // foreground
+  },
+};
+
+export const LIGHT_THEME: Theme = {
+  dark: false,
+  colors: NAV_THEME.light,
+  fonts: {
+    regular: { fontFamily: 'System', fontWeight: '400' },
+    medium: { fontFamily: 'System', fontWeight: '500' },
+    bold: { fontFamily: 'System', fontWeight: '700' },
+    heavy: { fontFamily: 'System', fontWeight: '800' },
+  },
+};
+export const DARK_THEME: Theme = {
+  dark: true,
+  colors: NAV_THEME.dark,
+  fonts: {
+    regular: { fontFamily: 'System', fontWeight: '400' },
+    medium: { fontFamily: 'System', fontWeight: '500' },
+    bold: { fontFamily: 'System', fontWeight: '700' },
+    heavy: { fontFamily: 'System', fontWeight: '800' },
   },
 };
