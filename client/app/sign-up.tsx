@@ -1,52 +1,121 @@
 import { useEffect, useRef } from 'react';
-import { TextInput, View } from 'react-native';
+import { TextInput, View, KeyboardAvoidingView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Redirect } from 'expo-router';
+import ky from 'ky';
+import { useForm } from 'react-hook-form';
 
 import { Text } from '~/rnr/ui';
 
 import { AuthButton, AuthHeader, AuthInput, AuthLink } from '~/shared/ui';
+import { EXPO_API_URL } from '~/constants';
 
-export default function SignIn() {
-  const idRef = useRef<TextInput>(null);
+interface ApiError extends Error {
+  response?: {
+    status: number;
+    json(): Promise<{ message: string }>;
+  };
+}
 
-  useEffect(() => {
-    idRef.current?.focus();
-  }, []);
+export default function SignUp() {
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      userId: '',
+      userPassword: '',
+      confirmPassword: '',
+    },
+  });
+
+  const password = watch('userPassword');
+
+  const onSignUp = async (data: { userId: string; userPassword: string }) => {
+    try {
+      const response = await ky.post(EXPO_API_URL + 'api/users/signup', {
+        json: {
+          username: data.userId,
+          password: data.userPassword,
+        },
+      });
+
+      if (response.ok) {
+        return <Redirect href="/sign-in" />;
+      }
+    } catch (error) {
+      const apiError = error as ApiError;
+
+      if (apiError.response) {
+        try {
+          const errorBody = await apiError.response.json();
+          console.error('Signup Error:', {
+            status: apiError.response.status,
+            message: errorBody.message,
+          });
+        } catch (parseError) {
+          console.error('Error parsing error response', parseError);
+        }
+      } else {
+        console.error('Unexpected error during signup:', error);
+      }
+    }
+  };
 
   return (
-    <SafeAreaView className="flex mt-52 items-center w-screen h-screen relative">
+    <KeyboardAvoidingView
+      behavior="padding"
+      className="flex justify-center items-center w-screen h-full relative "
+    >
       <AuthHeader />
 
-      <View className="mb-10">
+      <View className="w-8/12 mb-10">
         <Text className="font-bold">아이디</Text>
 
         <AuthInput
-          className="w-8/12"
-          ref={idRef}
+          control={control}
+          name="userId"
+          className=""
           aria-labelledby="user-id"
-          placeholder="아이디를 입력해주세요."
+          placeholder="아이디"
         />
       </View>
 
-      <View>
+      <View className="w-8/12">
         <Text className="font-bold">비밀번호</Text>
 
         <AuthInput
-          className="w-8/12"
+          control={control}
+          name="userPassword"
           aria-labelledby="user-password"
-          placeholder="비밀번호를 입력해주세요."
+          secureTextEntry
+          placeholder="비밀번호"
+          rules={{
+            required: '비밀번호를 입력해주세요.',
+          }}
+          errorMessage={errors.userPassword?.message}
         />
 
         <AuthInput
-          className="w-8/12 mb-10"
+          control={control}
+          name="confirmPassword"
+          className=" mb-10"
           aria-labelledby="user-password"
-          placeholder="비밀번호를 확인 해주세요."
+          secureTextEntry
+          placeholder="비밀번호를 확인"
+          rules={{
+            required: '비밀번호를 확인해주세요.',
+            validate: value => value === password || '비밀번호가 일치하지 않습니다.',
+          }}
+          errorMessage={errors.confirmPassword?.message}
         />
       </View>
 
-      <AuthButton>KAOTALK 회원가입</AuthButton>
+      <AuthButton onPress={handleSubmit(onSignUp)}>KAOTALK 회원가입</AuthButton>
 
       <AuthLink href="/sign-in">로그인</AuthLink>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
