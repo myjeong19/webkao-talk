@@ -1,13 +1,12 @@
-import '~/global.css';
-
+import { SplashScreen, Slot } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemeProvider } from '@react-navigation/native';
-import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { DARK_THEME, LIGHT_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/use-color-scheme';
+import '~/global.css';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -53,7 +52,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <Stack />
+      <Slot />
     </ThemeProvider>
   );
 }
