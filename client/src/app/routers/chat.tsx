@@ -1,8 +1,9 @@
+import type { RouteObject } from "react-router";
 import ChatRoom from "~pages/chat/chat-room";
 import ChatRoomList from "~pages/chat/chat-room-list";
 import GroupChatRoom from "~pages/chat/group-chat-room";
 
-export const CHAT_ROUTE = [
+export const CHAT_ROUTE: RouteObject[] = [
 	{
 		path: "/chat-room-list",
 		element: <ChatRoomList />,
