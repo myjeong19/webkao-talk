@@ -50,6 +50,9 @@ dependencies:
   react-router:
     specifier: ^7.0.1
     version: 7.0.1(react-dom@18.3.1)(react@18.3.1)
+  react-use-websocket:
+    specifier: ^4.11.1
+    version: 4.11.1
   tailwind-merge:
     specifier: ^2.5.5
     version: 2.5.5
@@ -2022,6 +2025,10 @@ packages:
       react-dom: 18.3.1(react@18.3.1)
       set-cookie-parser: 2.7.1
       turbo-stream: 2.4.0
+    dev: false
+
+  /react-use-websocket@4.11.1:
+    resolution: {integrity: sha512-39e8mK2a2A1h8uY3ePF45b2q0vwMOmaEy7J5qEhQg4n7vYa5oDLmqutG36kZQgAQ/3KCZS0brlGRbbZJ0+zfKQ==}
     dev: false
 
   /react@18.3.1:
