@@ -15,7 +15,8 @@ import {
 	Input,
 } from "~shared/shadcn/components/ui";
 import { END_POINT_USERS } from "~shared/constants";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAuthStore } from "~app/store";
 
 const formSchema = z.object({
 	userid: z.string().min(2, {
@@ -29,6 +30,8 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 function Login() {
+	const navigate = useNavigate();
+
 	const form = useForm<FormData>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -38,9 +41,30 @@ function Login() {
 	});
 
 	const onSubmit = async (data: FormData) => {
-		await ky.post(`${END_POINT_USERS}login`, {
-			json: data,
-		});
+		try {
+			const response = await ky.post<{
+				id: string;
+				username: string;
+				role: string;
+			}>(`${END_POINT_USERS}login`, {
+				json: {
+					username: data.userid,
+					password: data.password,
+				},
+			});
+
+			if (response.ok) {
+				const { id, username, role } = await response.json();
+
+				localStorage.setItem("webkaoId", id);
+				localStorage.setItem("webkaoUsername", username);
+				localStorage.setItem("webkaoRole", role);
+
+				await navigate("/chat-room-list");
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (

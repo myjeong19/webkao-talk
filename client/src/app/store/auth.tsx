@@ -22,5 +22,3 @@ export const useAuthStore = create<AuthState>((set) => ({
 		set({ webkaotoken: null });
 	},
 }));
-
-export const authStore = useAuthStore;

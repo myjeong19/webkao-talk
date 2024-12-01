@@ -36,7 +36,7 @@ function CreateAccount() {
 				},
 			});
 			if (response.ok) {
-				return await navigate("/chat-room-list");
+				return await navigate("/login");
 			}
 		} catch (error) {
 			console.error(error);
