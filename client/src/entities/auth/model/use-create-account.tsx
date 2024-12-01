@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const createAccountSchema = z.object({
+export const createAccountSchema = z.object({
 	userid: z.string().min(2, {
 		message: "User ID must be at least 2 characters.",
 	}),

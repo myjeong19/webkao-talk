@@ -1,6 +1,7 @@
-import { Link } from "react-router";
-import { z } from "zod";
+import { Link, useNavigate } from "react-router";
 import ky from "ky";
+
+import type { z } from "zod";
 
 import {
 	Button,
@@ -15,24 +16,32 @@ import {
 import { END_POINT_USERS } from "~shared/constants";
 import { useCreateAccount } from "~entities/auth/model";
 
-const formSchema = z.object({
-	userid: z.string().min(2, {
-		message: "User ID must be at least 2 characters.",
-	}),
-	password: z.string().min(2, {
-		message: "Password must be at least 2 characters.",
-	}),
-});
+import type { createAccountSchema } from "~entities/auth/model";
 
-type FormData = z.infer<typeof formSchema>;
+type FormData = z.infer<typeof createAccountSchema>;
 
 function CreateAccount() {
+	const navigate = useNavigate();
 	const form = useCreateAccount();
 
+	const password = form.watch("password");
+	const confirmPassword = form.watch("confirmPassword");
+
 	const onSubmit = async (data: FormData) => {
-		await ky.post(`${END_POINT_USERS}signup`, {
-			json: data,
-		});
+		try {
+			const response = await ky.post(`${END_POINT_USERS}signup`, {
+				json: {
+					username: data.userid,
+					password: data.password,
+				},
+			});
+			if (response.ok) {
+				return await navigate("/chat-room-list");
+			}
+		} catch (error) {
+			console.error(error);
+			throw new Error("Signup failed.");
+		}
 	};
 
 	return (
@@ -58,13 +67,17 @@ function CreateAccount() {
 						<FormItem className="mb-5">
 							<FormLabel>Password</FormLabel>
 							<FormControl>
-								<Input placeholder="Password" type="password" {...field} />
+								<Input
+									placeholder="Password"
+									type="password"
+									autoComplete="off"
+									{...field}
+								/>
 							</FormControl>
-
 							<FormMessage />
 						</FormItem>
 					)}
-				/>{" "}
+				/>
 				<FormField
 					control={form.control}
 					name="confirmPassword"
@@ -75,15 +88,19 @@ function CreateAccount() {
 								<Input
 									placeholder="Confirm Password"
 									type="password"
+									autoComplete="off"
 									{...field}
 								/>
 							</FormControl>
-
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
-				<Button className="mb-3" type="submit">
+				<Button
+					className="mb-3"
+					type="submit"
+					disabled={!form.formState.isValid || password !== confirmPassword}
+				>
 					Submit
 				</Button>
 				<div>
