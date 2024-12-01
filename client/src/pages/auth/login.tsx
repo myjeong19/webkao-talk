@@ -15,6 +15,7 @@ import {
 	Input,
 } from "~shared/shadcn/components/ui";
 import { END_POINT_USERS } from "~shared/constants";
+import { Link } from "react-router";
 
 const formSchema = z.object({
 	userid: z.string().min(2, {
@@ -72,7 +73,15 @@ function Login() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Submit</Button>
+				<Button className="mb-3" type="submit">
+					Submit
+				</Button>
+				<div>
+					<span className="mr-2">Don't have an account?</span>
+					<Link className="hover:underline" to="/create-account">
+						Create account
+					</Link>
+				</div>
 			</form>
 		</Form>
 	);
