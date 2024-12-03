@@ -18,7 +18,7 @@ export const CHAT_ROUTE: RouteObject[] = [
 		element: <GroupChatRoom />,
 	},
 	{
-		path: "/chat-demo",
+		path: "/chat-demo/:roomId",
 		element: <ChatDemo />,
 	},
 ];
