@@ -79,10 +79,36 @@ const createWindow = async () => {
 			preload: app.isPackaged
 				? path.join(__dirname, "preload.js")
 				: path.join(__dirname, "../../.erb/dll/preload.js"),
+			contextIsolation: true,
+			nodeIntegration: false,
 		},
 	});
 
 	mainWindow.loadURL(resolveHtmlPath("index.html"));
+
+	ipcMain.on("window-action", (_event, action) => {
+		if (!mainWindow) {
+			throw new Error('"mainWindow" is not defined');
+		}
+
+		switch (action) {
+			case "close":
+				mainWindow.close();
+				break;
+			case "minimize":
+				mainWindow.minimize();
+				break;
+			case "maximize":
+				mainWindow.maximize();
+				break;
+			case "unmaximize":
+				mainWindow.unmaximize();
+				break;
+			case "toggledevtools":
+				mainWindow.webContents.toggleDevTools();
+				break;
+		}
+	});
 
 	mainWindow.on("ready-to-show", () => {
 		if (!mainWindow) {

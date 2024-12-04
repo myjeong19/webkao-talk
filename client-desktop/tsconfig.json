@@ -16,7 +16,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"~app/*": ["./src/renderer/app/*"],
-			"~assets/*": ["./assets/*"],
+			"~assets/*": ["./assets/renderer/assets/*"],
 			"~shared/*": ["./src/renderer/shared/*"],
 			"~entities/*": ["./src/renderer/entities/*"],
 			"~features/*": ["./src/renderer/features/*"],
