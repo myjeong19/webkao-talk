@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 import { Button } from "~shared/shadcn/components/ui";
+import { ToastContainer } from "react-toastify";
 
 import {
 	Close as CloseIcon,
@@ -39,7 +40,10 @@ function Window() {
 				)}
 			</nav>
 
-			<Outlet />
+			<main className="w-screen h-screen flex items-center justify-center bg-black flex-col">
+				<Outlet />
+				<ToastContainer />
+			</main>
 		</>
 	);
 }
