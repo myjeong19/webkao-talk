@@ -25,6 +25,7 @@ export const CustomFormField = <T extends FieldValues>({
   label,
   description,
   className,
+  type,
 }: CustomFormFieldProps<T>) => {
   return (
     <FormField
@@ -37,7 +38,7 @@ export const CustomFormField = <T extends FieldValues>({
             {description}
           </FormDescription>
           <FormControl>
-            <Input placeholder={label} {...field} />
+            <Input type={type} placeholder={label} {...field} />
           </FormControl>
           <FormMessage className="text-sm text-red-400" />
         </FormItem>
