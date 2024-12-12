@@ -31,4 +31,6 @@ npm-debug.log.*
 v8-compile-cache-0
 
 
-.DS_Store
+
+node_modules
+
